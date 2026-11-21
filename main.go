@@ -69,7 +69,14 @@ func main() {
 	results := make(chan Result, *toPtr-*fromPtr+1)
 	jobs := make(chan int, *toPtr-*fromPtr+1)
 
-	client.baseURL = "https://homeworksite.site"
+	baseURL := os.Getenv("MOVIE_BASE_URL")
+	if baseURL != "" {
+		client.baseURL = baseURL
+		
+	} else {
+		client.baseURL = "https://homeworksite.site"
+	}
+
 	client.httpClient = &http.Client{
 		Timeout: time.Duration(*timeoutPtr) * time.Second,
 	}
